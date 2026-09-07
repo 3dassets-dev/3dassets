@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "dev.3dassets/catalogue",
+  "title": "3DAssets.dev",
+  "description": "Search and download free CC0 GLB models and game packs, and submit new ones on a user behalf.",
+  "websiteUrl": "https://3dassets.dev",
+  "repository": {
+    "url": "https://github.com/3dassets-dev/3dassets",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://3dassets.dev/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Optional. \"Bearer <api key>\" from https://3dassets.dev/account, needed only to submit models on the user behalf; search and download work without it.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "identifier": "3dassets",
+  "name": "3DAssets.dev",
+  "version": "1.0.0",
+  "description": "Search and download free CC0 GLB models and game packs for three.js, Blender, Godot and Unity, and submit new ones on a user behalf.",
+  "author": "3DAssets.dev",
+  "authorUrl": "https://3dassets.dev",
+  "homepage": "https://github.com/3dassets-dev/3dassets",
+  "cloudEndpoint": "https://3dassets.dev/mcp",
+  "category": "media-generate",
+  "icon": "https://3dassets.dev/avatar.png",
+  "tags": ["3d-models", "glb", "gltf", "cc0", "game-assets", "three.js", "blender", "godot", "unity"]
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "3dassets": {
+      "type": "http",
+      "url": "https://3dassets.dev/mcp"
+    }
+  }
+}

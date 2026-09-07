@@ -1,0 +1,29 @@
+name: Sync SKILL.md from 3dassets.dev
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the live skill
+        run: |
+          curl -fsSL https://3dassets.dev/skill.md -o SKILL.md.new
+          test -s SKILL.md.new
+          head -1 SKILL.md.new | grep -q '^---$'
+          mv SKILL.md.new SKILL.md
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- SKILL.md; then echo "SKILL.md unchanged"; exit 0; fi
+          git config user.name '3dassets-dev'
+          git config user.email 'hello@3dassets.dev'
+          git add SKILL.md
+          git commit -m "Sync SKILL.md from 3dassets.dev"
+          git push
