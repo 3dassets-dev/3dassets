@@ -8,7 +8,7 @@
     "url": "https://github.com/3dassets-dev/3dassets",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "remotes": [
     {
       "type": "streamable-http",
@@ -19,6 +19,26 @@
           "description": "Optional. \"Bearer <api key>\" from https://3dassets.dev/account, needed only to submit models on the user behalf; search and download work without it.",
           "isRequired": false,
           "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "3dassets-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "THREEDASSETS_API_KEY",
+          "description": "Optional. The user API key from https://3dassets.dev/account, needed only to submit models on the user behalf.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
         }
       ]
     }
