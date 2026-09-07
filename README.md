@@ -3,13 +3,33 @@
 Free, web-optimised CC0 GLB models and game asset packs for three.js, React Three Fiber, Blender, Godot, Unity and any glTF-capable tool. This repository holds the machine-readable pieces of https://3dassets.dev in one place for directories and agent tooling that index GitHub:
 
 - `SKILL.md`: the agent skill, a copy of https://3dassets.dev/skill.md (kept in sync daily by a workflow)
+- `bin/3dassets-mcp.js`: the `3dassets-mcp` npm package, a stdio bridge to the hosted server
 - `.mcp.json`: MCP client configuration for the hosted server
 - `server.json`: the official MCP Registry entry
 - `llms-install.md`: setup notes for agents that install from a README
 
-There is no code here. The site, the API and the MCP server are hosted at 3dassets.dev; the catalogue is at https://3dassets.dev/assets.
+The site, the API and the MCP server itself are hosted at 3dassets.dev, so the only code here is the thin stdio bridge; the catalogue is at https://3dassets.dev/assets.
 
 ## MCP server
+
+Two ways in. Hosted (Streamable HTTP) needs nothing installed; the npm package runs the same server over stdio for clients that only speak stdio or want a pinned dependency. Both expose the same tools.
+
+```sh
+# stdio, via npm (bridges to the hosted server; no local state)
+npx -y 3dassets-mcp
+```
+
+```json
+{
+  "mcpServers": {
+    "3dassets": { "command": "npx", "args": ["-y", "3dassets-mcp"] }
+  }
+}
+```
+
+Set `THREEDASSETS_API_KEY` in the environment to submit models on the user's behalf; leave it unset for read-only use.
+
+### Hosted endpoint
 
 Streamable HTTP endpoint: `https://3dassets.dev/mcp`. Search and download need no auth. Submitting models on a user's behalf takes their API key as a Bearer token; https://3dassets.dev/auth.md explains how an agent obtains one without the user ever handling a password.
 

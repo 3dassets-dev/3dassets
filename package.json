@@ -1,0 +1,21 @@
+{
+  "name": "3dassets-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for 3dassets.dev: search and download free CC0 GLB 3D models and game asset packs for three.js, Blender, Godot and Unity, and submit new ones on a user's behalf. Runs over stdio and bridges to the hosted server.",
+  "mcpName": "dev.3dassets/catalogue",
+  "type": "module",
+  "bin": { "3dassets-mcp": "bin/3dassets-mcp.js" },
+  "files": ["bin", "README.md", "LICENSE"],
+  "scripts": {
+    "start": "node bin/3dassets-mcp.js",
+    "test": "node test/smoke.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "repository": { "type": "git", "url": "git+https://github.com/3dassets-dev/3dassets.git" },
+  "homepage": "https://3dassets.dev/docs/mcp",
+  "bugs": { "email": "hello@3dassets.dev", "url": "https://github.com/3dassets-dev/3dassets/issues" },
+  "author": "3DAssets.dev <hello@3dassets.dev> (https://3dassets.dev)",
+  "license": "CC0-1.0",
+  "keywords": ["mcp", "mcp-server", "model-context-protocol", "3d", "3d-models", "glb", "gltf", "cc0", "game-assets", "threejs", "blender", "godot", "unity"],
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.20.0" }
+}
