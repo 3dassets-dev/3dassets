@@ -27,11 +27,11 @@ Available search filters: q, category, tag, theme, style, contributor, featured,
 
 ## Rate limits
 
-Requests are counted per API key, or per IP address when no key is sent. Configure the user's key even for read-only work: it roughly doubles every allowance.
+Requests are counted per API key, or per IP address when no key is sent. The allowance is the same either way: a key authenticates writes, it does not buy headroom. Reading needs no key at all.
 
-- Reads (search, asset, pack, taxonomy): 240/min · 3,000/hour with a key, 120/min · 1,000/hour without.
-- Downloads via https://3dassets.dev/download/{slug}: 120/min · 600/hour · 3,000/day with a key, 60/min · 300/hour · 1,000/day without.
-- Submissions and edits: 20/min · 150/hour · 400/day.
+- Reads (search, asset, pack, taxonomy): 10,000/min.
+- Downloads via https://3dassets.dev/download/{slug}: 2,500/min.
+- Submissions and edits: 60/min.
 - Checking a code (verify, sign-in) and rotating a key: 10/hour · 30/day per IP.
 - Anything that sends email (sign-up, /accounts/login-code, /accounts/resend): 6/hour · 20/day per IP, with further caps per recipient and across the site. Request one code and wait for the user to read it back; never retry in a loop.
 
