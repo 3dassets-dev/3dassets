@@ -1,21 +1,66 @@
 {
   "name": "3dassets-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for 3dassets.dev: search and download free CC0 GLB 3D models and game asset packs for three.js, Blender, Godot and Unity, and submit new ones on a user's behalf. Runs over stdio and bridges to the hosted server.",
   "mcpName": "dev.3dassets/catalogue",
-  "type": "module",
-  "bin": { "3dassets-mcp": "bin/3dassets-mcp.js" },
-  "files": ["bin", "README.md", "LICENSE"],
-  "scripts": {
-    "start": "node bin/3dassets-mcp.js",
-    "test": "node test/smoke.mjs"
-  },
-  "engines": { "node": ">=18" },
-  "repository": { "type": "git", "url": "git+https://github.com/3dassets-dev/3dassets.git" },
-  "homepage": "https://3dassets.dev/docs/mcp",
-  "bugs": { "email": "hello@3dassets.dev", "url": "https://github.com/3dassets-dev/3dassets/issues" },
-  "author": "3DAssets.dev <hello@3dassets.dev> (https://3dassets.dev)",
   "license": "CC0-1.0",
-  "keywords": ["mcp", "mcp-server", "model-context-protocol", "3d", "3d-models", "glb", "gltf", "cc0", "game-assets", "threejs", "blender", "godot", "unity"],
-  "dependencies": { "@modelcontextprotocol/sdk": "^1.20.0" }
+  "author": "3DAssets.dev <hello@3dassets.dev> (https://3dassets.dev)",
+  "homepage": "https://3dassets.dev/docs/mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3dassets-dev/3dassets.git"
+  },
+  "bugs": {
+    "email": "hello@3dassets.dev",
+    "url": "https://github.com/3dassets-dev/3dassets/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "3d",
+    "3d-models",
+    "glb",
+    "gltf",
+    "cc0",
+    "game-assets",
+    "threejs",
+    "blender",
+    "godot",
+    "unity"
+  ],
+  "type": "module",
+  "bin": {
+    "3dassets-mcp": "dist/index.js"
+  },
+  "main": "dist/server.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "npm run build && node test/live.mjs",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@modelcontextprotocol/server": "^2.4.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/node": "^2.1.2",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

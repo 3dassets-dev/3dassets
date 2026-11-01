@@ -3,7 +3,7 @@
 Free, web-optimised CC0 GLB models and game asset packs for three.js, React Three Fiber, Blender, Godot, Unity and any glTF-capable tool. This repository holds the machine-readable pieces of https://3dassets.dev in one place for directories and agent tooling that index GitHub:
 
 - `SKILL.md`: the agent skill, a copy of https://3dassets.dev/skill.md (kept in sync daily by a workflow)
-- `bin/3dassets-mcp.js`: the `3dassets-mcp` npm package, a stdio bridge to the hosted server
+- `src/`: the `3dassets-mcp` npm package, a stdio bridge to the hosted server
 - `.mcp.json`: MCP client configuration for the hosted server
 - `server.json`: the official MCP Registry entry
 - `llms-install.md`: setup notes for agents that install from a README
@@ -27,7 +27,7 @@ npx -y 3dassets-mcp
 }
 ```
 
-Set `THREEDASSETS_API_KEY` in the environment to submit models on the user's behalf; leave it unset for read-only use.
+Set `THREEDASSETS_API_KEY` in the environment to submit models on the user's behalf; leave it unset for read-only use. Needs Node.js 20 or later; `npx -y 3dassets-mcp --help` lists the other settings.
 
 ### Hosted endpoint
 
