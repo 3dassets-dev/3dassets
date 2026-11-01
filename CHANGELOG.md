@@ -13,6 +13,8 @@
 - Cancelling a tool call in your client, or closing the client, now cancels the call on the
   hosted server too.
 - Clear messages for a rejected API key, rate limits and outages, without echoing the key.
+- A tool that needs an account, called without `THREEDASSETS_API_KEY`, now says how to set one
+  (3dassets.dev answers those calls with a 401 so OAuth clients can sign in).
 - Anything a dependency logs now goes to stderr, so it can't corrupt the MCP stream on stdout.
 - `--help`, `--version`, `--api-url` and `--timeout-ms`, and a `THREEDASSETS_TIMEOUT_MS` setting.
 - Needs Node.js 20 or later (was 18, which is end of life).

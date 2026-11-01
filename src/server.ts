@@ -70,11 +70,11 @@ function relayProgress(ctx: ServerContext): ProgressRelay | undefined {
 }
 
 /** Thrown errors reach the client as they are, so only throw the sanitised message. */
-async function sanitised<T>(run: () => Promise<T>): Promise<T> {
+async function sanitised<T>(run: () => Promise<T>, hasKey: boolean): Promise<T> {
   try {
     return await run();
   } catch (error) {
-    throw new Error(describeUpstreamError(error));
+    throw new Error(describeUpstreamError(error, hasKey));
   }
 }
 
@@ -91,12 +91,13 @@ export async function createServer(config: Config, upstream: Upstream = new Upst
     console.error(`Starting without a connection to 3dassets.dev: ${describeUpstreamError(error)}`);
   }
 
+  const hasKey = Boolean(config.apiKey);
   const server = new Server(
     { name: '3dassets', version: PACKAGE_VERSION },
     { capabilities: { tools: {}, resources: {} }, instructions }
   );
 
-  server.setRequestHandler('tools/list', (request) => sanitised(() => upstream.listTools(request.params)));
+  server.setRequestHandler('tools/list', (request) => sanitised(() => upstream.listTools(request.params), hasKey));
 
   server.setRequestHandler('tools/call', async (request, ctx) => {
     try {
@@ -114,15 +115,15 @@ export async function createServer(config: Config, upstream: Upstream = new Upst
         await progress?.flushed();
       }
     } catch (error) {
-      return errorResult(describeUpstreamError(error));
+      return errorResult(describeUpstreamError(error, hasKey));
     }
   });
 
-  server.setRequestHandler('resources/list', (request) => sanitised(() => upstream.listResources(request.params)));
+  server.setRequestHandler('resources/list', (request) => sanitised(() => upstream.listResources(request.params), hasKey));
   server.setRequestHandler('resources/templates/list', (request) =>
-    sanitised(() => upstream.listResourceTemplates(request.params))
+    sanitised(() => upstream.listResourceTemplates(request.params), hasKey)
   );
-  server.setRequestHandler('resources/read', (request) => sanitised(() => upstream.readResource(request.params.uri)));
+  server.setRequestHandler('resources/read', (request) => sanitised(() => upstream.readResource(request.params.uri), hasKey));
 
   server.onclose = () => {
     void upstream.reset();

@@ -110,9 +110,10 @@ describe.each(matrix)('proxy to a %s hosted server, for a %s client', (upstreamM
     const last = upstream.requests.at(-1);
     expect(last?.authorization).toBeUndefined();
     expect(last?.['user-agent']).toMatch(/^3dassets-mcp\//);
+    // The hosted server answers 401 here so OAuth clients can sign in; over stdio the account is the key.
     const result = await client.callTool({ name: 'my_assets', arguments: {} });
     expect(result.isError).toBe(true);
-    expect(text(result)).toMatch(/needs an API key/);
+    expect(text(result)).toMatch(/needs the user's 3dassets\.dev account\. Set THREEDASSETS_API_KEY/);
     await close();
   });
 

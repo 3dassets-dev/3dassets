@@ -14,8 +14,14 @@ import type {
 import type { Config } from './config.js';
 import { PACKAGE_NAME, PACKAGE_VERSION } from './version.js';
 
-export function describeUpstreamError(error: unknown): string {
+export function describeUpstreamError(error: unknown, hasKey = true): string {
   if (error instanceof SdkHttpError) {
+    if (error.status === 401 && !hasKey) {
+      // The hosted server answers 401 to a tool that needs an account, so an OAuth client can sign in.
+      // Over stdio the account is the API key.
+      return 'This tool needs the user\'s 3dassets.dev account. Set THREEDASSETS_API_KEY to the key from ' +
+        'https://3dassets.dev/account, or create an account with create_account and verify_account.';
+    }
     if (error.status === 401) {
       return '3dassets.dev did not accept the API key. It may have been rotated or mistyped: ' +
         'copy the current one from https://3dassets.dev/account into THREEDASSETS_API_KEY, ' +

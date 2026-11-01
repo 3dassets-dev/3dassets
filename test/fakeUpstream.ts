@@ -198,17 +198,30 @@ export async function startFakeUpstream(options: FakeUpstreamOptions = {}): Prom
       res.writeHead(failure, { 'content-type': 'text/plain' }).end(`Failed with ${failure}`);
       return;
     }
+    let parsed: unknown;
+    // Like 3dassets.dev since OAuth: an anonymous call to a tool that needs an account is a 401 challenge.
+    if (!authorization && req.method === 'POST') {
+      let raw = '';
+      for await (const chunk of req) raw += chunk;
+      const body = JSON.parse(raw || '{}') as { id?: unknown; method?: string; params?: { name?: string } };
+      if (body.method === 'tools/call' && body.params?.name === 'my_assets') {
+        res.writeHead(401, { 'content-type': 'application/json', 'www-authenticate': 'Bearer resource_metadata="x"' });
+        res.end(JSON.stringify({ jsonrpc: '2.0', id: body.id ?? null, error: { code: -32001, message: 'Sign in' } }));
+        return;
+      }
+      parsed = raw ? JSON.parse(raw) : undefined;
+    }
     if (modern) {
       currentAuthorization = authorization;
-      await modern(req, res);
+      await modern(req, res, parsed);
       return;
     }
     if (req.method !== 'POST') {
       res.writeHead(405).end();
       return;
     }
-    let body = '';
-    for await (const chunk of req) body += chunk;
+    let body = parsed === undefined ? '' : JSON.stringify(parsed);
+    if (parsed === undefined) for await (const chunk of req) body += chunk;
     // Stateless, one server per request, as the hosted 2025-era endpoint works.
     const server = buildServer('legacy', authorization);
     const transport = new NodeStreamableHTTPServerTransport({ sessionIdGenerator: undefined });
